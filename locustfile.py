@@ -19,7 +19,7 @@ class UserBehavior(TaskSet):
         else:
             return False
 
-    def fetch_static_assets(self,session, response):
+    def fetch_static_assets(self, response):
         resource_urls = set()
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -40,7 +40,7 @@ class UserBehavior(TaskSet):
         for url in set(resource_urls):
             #Note: If you are going to tag different static file paths differently,
             #this is where I would normally do that.
-            session.client.get(url, name="(Static File)")
+            self.client.get(url, name="(Static File)")
 
     def on_start(self):
         self.client.verify = False
@@ -59,7 +59,7 @@ class UserBehavior(TaskSet):
     @task(1)
     def index(self):
         response = self.client.get('/')
-        self.fetch_static_assets(l, response)
+        self.fetch_static_assets( response)
 
     # @task(2)
     # def heavy_url(self):
